@@ -1,0 +1,8 @@
+### 生成 用户信息
+GET {{baseUrl}}/init/users
+Content-Type: application/json
+
+
+### 生成 客户端详情
+GET {{baseUrl}}/init/clients
+Content-Type: application/json

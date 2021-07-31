@@ -1,0 +1,221 @@
+html,
+body {
+    color: #444;
+    height: 100%;
+}
+
+.bg-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 1000px;
+    z-index: -10;
+    zoom: 1;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+}
+
+div.da-wrapper {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    position: relative;
+    min-width: 320px
+}
+
+div.da-wrapper .da-container {
+    width: 96%;
+    margin: auto
+}
+
+div.da-content {
+    clear: both;
+    padding-bottom: 58px
+}
+
+@media only screen and (max-width: 480px) {
+    div.da-content {
+        margin-top: auto
+    }
+}
+
+div.da-error-wrapper {
+    width: 500px;
+    padding: 30px 0;
+    margin: auto;
+    position: relative
+}
+
+div.da-error-wrapper .da-error-heading {
+    color: red;
+    text-align: center;
+    font-size: 24px;
+}
+
+@-webkit-keyframes error-swing {
+    0% {
+        -webkit-transform: rotate(1deg)
+    }
+
+    100% {
+        -webkit-transform: rotate(-2deg)
+    }
+}
+
+@-moz-keyframes error-swing {
+    0% {
+        -moz-transform: rotate(1deg)
+    }
+
+    100% {
+        -moz-transform: rotate(-2deg)
+    }
+}
+
+@keyframes error-swing {
+    0% {
+        transform: rotate(1deg)
+    }
+
+    100% {
+        transform: rotate(-2deg)
+    }
+}
+
+div.da-error-wrapper .da-error-code {
+    height: 170px;
+    padding: 127px 16px 0 16px;
+    position: relative;
+    z-index: 5;
+    line-height: 1;
+    font-size: 32px;
+    text-align: center;
+    -webkit-transform-origin: center top;
+    -moz-transform-origin: center top;
+    transform-origin: center top;
+    -webkit-animation: error-swing infinite 2s ease-in-out alternate;
+    -moz-animation: error-swing infinite 2s ease-in-out alternate;
+    animation: error-swing infinite 2s ease-in-out alternate
+}
+
+div.da-error-wrapper .da-error-code .tip2 {
+    padding-top: 15px;
+}
+
+div.da-error-wrapper .da-error-code .tip3 {
+    padding-top: 20px;
+    font-size: 20px;
+    color: red;
+    font-weight: bold;
+}
+
+div.da-error-wrapper .da-error-pin {
+    width: 38px;
+    height: 38px;
+    display: block;
+    z-index: 10;
+    position: relative;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.login {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.login_container {
+    padding: 20px 30px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.login_titles {
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 22px;
+    color: #eee;
+}
+
+.login_user {
+    position: relative;
+    margin: 20px 0;
+}
+
+.login_user img {
+    position: absolute;
+    height: 20px;
+    top: 50%;
+    left: 8px;
+    transform: translateY(-50%);
+}
+
+.login_user input {
+    outline: none;
+    border: none;
+    padding: 7px 0px 7px 35px;
+    width: 300px;
+    font-size: 18px;
+    opacity: 0.4;
+}
+
+.login_remenber input {
+    outline: none;
+    border: none;
+    opacity: 0.7;
+    vertical-align: middle;
+}
+
+.login_submit div {
+    cursor: pointer;
+    background: cadetblue;
+    opacity: 0.8;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    height: 40px;
+    line-height: 40px;
+    margin: 10px 0;
+}
+
+.login_message div {
+    background: red;
+    opacity: 0.8;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    margin: 10px 0;
+    display: none;
+    transition: 2s;
+}
+
+.login_message {
+    -webkit-animation: login_message 2s linear;
+    -moz-animation: login_message 2s linear;
+    animation: login_message 2s linear;
+}
+
+@-webkit-keyframes login_message { /*设置内容由显示变为隐藏*/
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+
+}

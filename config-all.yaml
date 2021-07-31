@@ -1,0 +1,47 @@
+AppName: GIN OAUTH2.0 SERVER
+Mode: debug     # 默认: debug, 可选 release
+Version: 1.0.1
+Profile: dev    # 默认: dev, 可选 prod
+Port: 9018      # 服务端口号 默认: 9018
+CacheType: map  # 缓存类型，默认 Map 可选 redis
+DbType: SQLite   # 默认: SQLite, 可选 MySql , PostgreSQL , SqlServer
+
+SQLite:
+  DbPath: gin_oauth2_server.db3
+
+Mysql:
+  Host: localhost
+  Port: 3306
+  DbName: gin_oauth2_server
+  Username: root
+  Password: root
+
+Postgre:
+  Host: localhost
+  Port: 5432
+  DbName: gin_oauth2_server
+  Username: postgre
+  Password: postgre
+
+SqlServer:
+  Host: localhost
+  Port: 1433
+  DbName: gin_oauth2_server
+  Username: sa
+  Password: 123456
+
+Redis:
+  Host: localhost
+  Port: 6379
+  Db: 0
+  Password: ""
+
+OAuth2Server:
+  TokenExpired: 7200            # access_token  有效期 单位(秒)
+  RefreshTokenExpired: 14400    # refresh_token 有效期 单位(秒)
+  SmsCodeExpired: 600           # 短信验证码，在服务器保存多久， 单位(秒)
+  PromptExpired: 600            # 开启 单点登录之后， 用户被挤下线后，给前端的提示，在服务器中保留时间  单位(秒)
+  TokenType: "Bearer "          # token 前缀
+  TokenHeader: "Authorization"  # jwt token 在请求头中的字符串
+  Secret: ""                    # token 密钥
+  Sso: true

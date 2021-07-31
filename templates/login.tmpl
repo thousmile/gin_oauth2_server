@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/assets/css/index.css">
+    <title>登录</title>
+</head>
+
+<body>
+<div class="bg-box" style="background: url('/assets/img/loginBackground.jpg')"></div>
+<div class="login">
+    <div class="login_container">
+        <div class="login_titles">OAuth2.0 Server 登录页面</div>
+        <div class="login_message">
+            <div id="login_message">提示信息</div>
+        </div>
+        <div class="login_user">
+            <img src="/assets/img/user.png">
+            <input id="username" type="text" placeholder="请输入用户名">
+        </div>
+        <div class="login_pwd login_user">
+            <img src="/assets/img/pwd.png">
+            <input id="password" type="text" placeholder="请输入密码">
+        </div>
+        <div id="loginBtn" class="login_submit">
+            <div>登陆</div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+<script type="text/javascript">
+    // 一个随机的 授权ID，由系统随机生成，绑定给每个前来授权的第三方应用，主要用来连贯用户一些列操作！
+    const codeId = {{ .codeId }};
+    let message = document.getElementById("login_message")
+
+    // 消息提示
+    function msg(show, color, txt) {
+        message.style.display = show;
+        message.style.background = color;
+        message.innerText = txt;
+    }
+
+    $(document).ready(function () {
+        $("#loginBtn").click(function () {
+            console.log("登录点击")
+            let username = $("#username").val();
+            let password = $("#password").val();
+            if (!username || !password) {
+                msg("block", "red", "用户名或密码为空");
+            }
+            if (username.length >= 5 && password.length >= 5) {
+                let params = {
+                    codeId: codeId,
+                    username: username,
+                    password: password
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/login",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(params),
+                    success: function (response) {
+                        if (response.status === 200) {
+                            location.href = response.data
+                        } else {
+                            msg("block", "red", response.message)
+                        }
+                    }
+                });
+            } else {
+                msg("block", "red", "用户名或密码长度不够！");
+            }
+        })
+    });
+</script>
+</body>
+
+</html>

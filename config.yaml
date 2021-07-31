@@ -1,0 +1,4 @@
+AppName: Gin OAuth2.0 Server
+Mode: debug     # 默认: debug, 可选 release
+CacheType: redis  # 缓存类型，默认 Map 可选 redis
+DbType: SQLite   # 默认: SQLite, 可选 MySql , PostgreSQL , SqlServer

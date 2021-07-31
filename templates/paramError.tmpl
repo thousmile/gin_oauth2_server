@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="/assets/css/index.css">
+    <title>错误页面</title>
+</head>
+
+<body>
+<div class="bg-box" style="background: url('/assets/img/errorBackground.jpg')"></div>
+<div class="da-wrapper">
+    <div class="da-content">
+        <div class="da-container clearfix">
+            <div class="da-error-wrapper">
+                <div class="da-error-pin"></div>
+                <div class="da-error-code">
+                    <p class="tip2">参数错误</p>
+                    <p class="tip3">
+                        <span>
+                            {{ .status }}
+                        </span>
+                        &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                        <span>
+                            {{ .message }}
+                        </span>
+                    </p>
+                </div>
+                <h1 class="da-error-heading">Sorry, 请检查参数，再重试 !!!</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+

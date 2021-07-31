@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>README</title>
+</head>
+<body><h1 id='golang-gin-gorm-redis-oauth-20-授权服务'>Golang Gin Gorm Redis OAuth 2.0 授权服务</h1>
+<p><img src="/assets/images/3.png" referrerpolicy="no-referrer"></p>
+<h2 id='授权码模式'>授权码模式</h2>
+<h4 id='1在浏览器中打开如下地址'>1.在浏览器中打开如下地址</h4>
+<pre><code>http://localhost:9018/code?response_type=code&amp;client_id=nssbTtp5FO6NjZpUwP&amp;redirect_uri=http://www.baidu.com/getCode&amp;scope=base_user&amp;state=K2KpBcF00JkRZPd
+</code></pre>
+<h4 id='2输入用户名和密码-默认都是-admin'>2.输入用户名和密码， 默认都是： admin</h4>
+<p><img src="/assets/images/2.png" referrerpolicy="no-referrer"></p>
+<p>&nbsp;</p>
+<h4 id='3登录成功后就可以看到浏览器地址栏中的-code-参数'>3.登录成功后，就可以看到浏览器地址栏中的 code 参数</h4>
+<p><img src="/assets/images/1.png" referrerpolicy="no-referrer"></p>
+<h4 id='4通过-code-换-accesstoken'>4.通过 code 换 access_token </h4>
+<pre><code>POST http://localhost:8098/access_token
+Content-Type: application/json
+
+body：
+{
+    &quot;grant_type&quot;:&quot;authorization_code&quot;,
+    &quot;client_id&quot;:&quot;nssbTtp5FO6NjZpUwP&quot;,
+    &quot;client_secret&quot;:&quot;nssbTtp5FO6NjZpUwP&quot;,
+    &quot;code&quot;:&quot;上一步，中获取的 code &quot;
+}
+
+response: 
+{
+  &quot;status&quot;: 200,
+  &quot;message&quot;: &quot;ok&quot;,
+  &quot;data&quot;: {
+    &quot;access_token&quot;: &quot;eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOIeqPZhq-EH9RwV10hs9IHrLQ8ctEAhNbkICtEPLROP6pmyc_Q&quot;,
+    &quot;token_type&quot;: &quot;Bearer &quot;,
+    &quot;expires_in&quot;: 3600,
+    &quot;refresh_token&quot;: &quot;eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxMThlY2NlkwMjUifQ.eNOiBa_gMNbkIChXY-Yn6IqMlzzw&quot;,
+    &quot;scope&quot;: &quot;read,write&quot;
+  }
+}
+</code></pre>
+<p>&nbsp;</p>
+<h4 id='5通过上一步获取的-accesstoken-参数获取用户信息'>5.通过上一步获取的 access_token 参数，获取用户信息</h4>
+<pre><code>GET http://localhost:8098/loginInfo
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+response: 
+{
+  &quot;status&quot;: 200,
+  &quot;message&quot;: &quot;ok&quot;,
+  &quot;data&quot;: {
+    &quot;tokenId&quot;: &quot;ac44d5f3646f43cda94e72fcb1ddcfe5&quot;,
+    &quot;grantType&quot;: &quot;authorization_code&quot;,
+    &quot;user&quot;: {
+      &quot;userId&quot;: 609429132107067392,
+      &quot;avatar&quot;: &quot;https://images.xaaef.com/b9a7abacafd747bbb74cf7cb3de36c1e.png&quot;,
+      &quot;username&quot;: &quot;admin&quot;,
+      &quot;mobile&quot;: &quot;15071525233&quot;,
+      &quot;email&quot;: &quot;3548794@qq.com&quot;,
+      &quot;nickname&quot;: &quot;管理员&quot;,
+      &quot;gender&quot;: 1,
+      &quot;birthday&quot;: &quot;1995-08-17&quot;,
+      &quot;status&quot;: 2,
+      &quot;adminFlag&quot;: 1
+    },
+    &quot;client&quot;: {
+      &quot;clientId&quot;: &quot;7KutwpFgFXv0hcvkBO&quot;,
+      &quot;name&quot;: &quot;商户管理后台&quot;,
+      &quot;logo&quot;: &quot;dwa&quot;,
+      &quot;description&quot;: &quot;多商户管理后台&quot;,
+      &quot;clientType&quot;: 1,
+      &quot;grantTypes&quot;: [
+        &quot;*&quot;
+      ],
+      &quot;domainName&quot;: &quot;www.xaaef.com&quot;,
+      &quot;scope&quot;: &quot;read,write&quot;
+    }
+  }
+}
+</code></pre>
+<p>&nbsp;</p>
+<h2 id='密码模式'>密码模式</h2>
+<pre><code>POST http://localhost:8098/password
+Content-Type: application/json
+
+body：
+{
+  &quot;username&quot;: &quot;admin&quot;,
+  &quot;password&quot;: &quot;admin&quot;,
+  &quot;grant_type&quot;: &quot;password&quot;,
+  &quot;client_id&quot;: &quot;7KutwpFgFXv0hcvkBO&quot;,
+  &quot;client_secret&quot;: &quot;7KutwpFgFXv0hcvkBO&quot;
+}
+
+response: 
+{
+  &quot;status&quot;: 200,
+  &quot;message&quot;: &quot;ok&quot;,
+  &quot;data&quot;: {
+    &quot;access_token&quot;: &quot;eyJhbGciOiJIUdGkiOMNWklfskZwzUxMiJ9.eyJqdGkiOMNWklfskZw-Z6lEzJqHVOpr5-g&quot;,
+    &quot;token_type&quot;: &quot;Bearer &quot;,
+    &quot;expires_in&quot;: 3600,
+    &quot;refresh_token&quot;: &quot;eyJhbGciOiJIiOiJIUzUzUxMiJ9.eyJqdGkiOiIiOiJIUz2YjYwZDM5ZGzAKZflB2z_79n-Q&quot;,
+    &quot;scope&quot;: &quot;read,write&quot;
+  }
+}
+</code></pre>
+<p>&nbsp;</p>
+<h2 id='客户端模式'>客户端模式</h2>
+<pre><code>POST http://localhost:8098/client
+Content-Type: application/json
+
+body：
+{
+  &quot;scope&quot;: &quot;read&quot;,
+  &quot;grant_type&quot;: &quot;client_credentials&quot;,
+  &quot;client_id&quot;: &quot;VIUvXZmVXmOFh1gYWK&quot;,
+  &quot;client_secret&quot;: &quot;VIUvXZmVXmOFh1gYWK&quot;
+}
+
+response: 
+{
+  &quot;status&quot;: 200,
+  &quot;message&quot;: &quot;ok&quot;,
+  &quot;data&quot;: {
+    &quot;access_token&quot;: &quot;eyJhbGciOiJIUdGkiOMNWklfskZwzUxMiJ9.eyJqdGkiOMNWklfskZw-Z6lEzJqHVOpr5-g&quot;,
+    &quot;token_type&quot;: &quot;Bearer &quot;,
+    &quot;expires_in&quot;: 3600,
+    &quot;refresh_token&quot;: &quot;eyJhbGciOiJIiOiJIUzUzUxMiJ9.eyJqdGkiOiIiOiJIUz2YjYwZDM5ZGzAKZflB2z_79n-Q&quot;,
+    &quot;scope&quot;: &quot;read,write&quot;
+  }
+}
+</code></pre>
+<p>&nbsp;</p>
+<h2 id='短信验证码模式'>短信验证码模式</h2>
+<pre><code>### 发送短信 验证码
+POST http://localhost:8098/sms/send
+Content-Type: application/json
+
+body：
+{
+  &quot;client_id&quot;: &quot;nssbTtp5FO6NjZpUwP&quot;,
+  &quot;mobile&quot;: &quot;15071525233&quot;
+}
+
+response: 
+{
+  &quot;status&quot;: 200,
+  &quot;message&quot;: &quot;ok&quot;
+}
+
+
+### 短信验证码 模式登录
+POST http://localhost:8098/sms
+Content-Type: application/json
+
+body：
+{
+  &quot;mobile&quot;: &quot;15071525233&quot;,
+  &quot;code&quot;: &quot;1168&quot;,
+  &quot;grant_type&quot;: &quot;sms&quot;,
+  &quot;client_id&quot;: &quot;nssbTtp5FO6NjZpUwP&quot;,
+  &quot;client_secret&quot;: &quot;nssbTtp5FO6NjZpUwP&quot;
+}
+
+response: 
+{
+  &quot;status&quot;: 200,
+  &quot;message&quot;: &quot;ok&quot;,
+  &quot;data&quot;: {
+    &quot;access_token&quot;: &quot;eyJhbGciOiJIUdGkiOMNWklfskZwzUxMiJ9.eyJqdGkiOMNWklfskZw-Z6lEzJqHVOpr5-g&quot;,
+    &quot;token_type&quot;: &quot;Bearer &quot;,
+    &quot;expires_in&quot;: 3600,
+    &quot;refresh_token&quot;: &quot;eyJhbGciOiJIiOiJIUzUzUxMiJ9.eyJqdGkiOiIiOiJIUz2YjYwZDM5ZGzAKZflB2z_79n-Q&quot;,
+    &quot;scope&quot;: &quot;read,write&quot;
+  }
+}
+</code></pre>
+<p>&nbsp;</p>
+<h2 id='获取登录用户信息'>获取登录用户信息</h2>
+<pre><code>### 获取登录的用户信息
+GET http://localhost:8098/loginInfo
+Content-Type: application/json
+Authorization: Bearer {{tokenValue}}
+
+response: 
+{
+  &quot;status&quot;: 200,
+  &quot;message&quot;: &quot;ok&quot;,
+  &quot;data&quot;: {
+    &quot;tokenId&quot;: &quot;ac44d5f3646f43cda94e72fcb1ddcfe5&quot;,
+    &quot;grantType&quot;: &quot;password&quot;,
+    &quot;user&quot;: {
+      &quot;userId&quot;: 609429132107067392,
+      &quot;avatar&quot;: &quot;https://images.xaaef.com/b9a7abacafd747bbb74cf7cb3de36c1e.png&quot;,
+      &quot;username&quot;: &quot;admin&quot;,
+      &quot;mobile&quot;: &quot;15071525233&quot;,
+      &quot;email&quot;: &quot;3548794@qq.com&quot;,
+      &quot;nickname&quot;: &quot;管理员&quot;,
+      &quot;gender&quot;: 1,
+      &quot;birthday&quot;: &quot;1995-08-17&quot;,
+      &quot;status&quot;: 2,
+      &quot;adminFlag&quot;: 1
+    },
+    &quot;client&quot;: {
+      &quot;clientId&quot;: &quot;7KutwpFgFXv0hcvkBO&quot;,
+      &quot;name&quot;: &quot;商户管理后台&quot;,
+      &quot;logo&quot;: &quot;dwa&quot;,
+      &quot;description&quot;: &quot;多商户管理后台&quot;,
+      &quot;clientType&quot;: 1,
+      &quot;grantTypes&quot;: [
+        &quot;we_chat&quot;,
+        &quot;password&quot;,
+        &quot;tencent_qq&quot;,
+        &quot;sms&quot;
+      ],
+      &quot;domainName&quot;: &quot;www.mhtled.com&quot;,
+      &quot;scope&quot;: &quot;read,write&quot;
+    }
+  }
+}
+</code></pre>
+<p>&nbsp;</p>
+<h2 id='刷新-token'>刷新 token</h2>
+<pre><code>### 刷新 token
+POST http://localhost:8098/refresh
+Content-Type: application/json
+refresh_token: Bearer {{refreshToken}}
+
+response: 
+{
+  &quot;status&quot;: 200,
+  &quot;message&quot;: &quot;ok&quot;,
+  &quot;data&quot;: {
+    &quot;access_token&quot;: &quot;eyJhbGciOiJIUdGkiOMNWklfskZwzUxMiJ9.eyJqdGkiOMNWklfskZw-Z6lEzJqHVOpr5-g&quot;,
+    &quot;token_type&quot;: &quot;Bearer &quot;,
+    &quot;expires_in&quot;: 3600,
+    &quot;refresh_token&quot;: &quot;eyJhbGciOiJIiOiJIUzUzUxMiJ9.eyJqdGkiOiIiOiJIUz2YjYwZDM5ZGzAKZflB2z_79n-Q&quot;,
+    &quot;scope&quot;: &quot;read,write&quot;
+  }
+}
+</code></pre>
+<p>&nbsp;</p>
+<h2 id='退出登录'>退出登录</h2>
+<pre><code>### 退出登录
+POST http://localhost:8098/logout
+Content-Type: application/json
+Authorization: Bearer {{tokenValue}}
+
+response: 
+{
+  &quot;status&quot;: 200,
+  &quot;message&quot;: &quot;ok&quot;
+}
+</code></pre>
+<p>&nbsp;</p>
+</body>
+</html>
