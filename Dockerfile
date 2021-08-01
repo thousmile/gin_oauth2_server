@@ -1,7 +1,9 @@
 # 表示依赖 alpine 最新版
 FROM alpine:latest
 MAINTAINER Wang Chen Chen<932560435@qq.com>
-ENV VERSION 1.0
+ENV VERSION 1.0.1
+
+RUN apk add --update gcc musl-dev
 
 # 在容器根目录 创建一个 apps 目录
 WORKDIR /apps
@@ -31,7 +33,7 @@ RUN echo 'Asia/Shanghai' >/etc/timezone
 ENV LANG C.UTF-8
 
 # 暴露端口
-EXPOSE 8089
+EXPOSE 9018
 
 # 运行golang程序的命令
 ENTRYPOINT ["/apps/golang_app"]

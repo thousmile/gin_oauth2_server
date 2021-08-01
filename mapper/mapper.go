@@ -54,6 +54,13 @@ func init() {
 		print(err)
 		os.Exit(0)
 	}
+	test := 0
+	BaseMapper.Raw("SELECT 1").Scan(&test)
+	log.Logger.Debugf("select 1 = %d", test)
+	if test != 1 {
+		print("请检查数据库连接信息是否错误。并保证数据库在运行中...")
+		os.Exit(0)
+	}
 	dbPool, err := BaseMapper.DB()
 	if err != nil {
 		print(err)

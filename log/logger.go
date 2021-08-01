@@ -1,6 +1,7 @@
 package log
 
 import (
+	conf "gin_oauth2_server/config"
 	"github.com/gin-gonic/gin"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"go.uber.org/zap"
@@ -60,7 +61,7 @@ func init() {
 	errorWriter := getWriter("./logs/error.log")
 
 	var core zapcore.Core
-	if strings.EqualFold("prod", os.Getenv("profile")) {
+	if strings.EqualFold("prod", conf.Config.Profile) {
 		// 最后创建具体的Logger
 		core = zapcore.NewTee(
 			zapcore.NewCore(encoder, zapcore.AddSync(infoWriter), infoLevel),

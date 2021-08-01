@@ -24,7 +24,7 @@ type DefaultModeParam struct {
 	ClientSecret string `json:"client_secret" form:"client_secret"`
 }
 
-const pattern = "(authorization_code|password|client_credentials|tencent_qq|we_chat|sms)"
+var pattern = regexp.MustCompile(`(authorization_code|password|client_credentials|tencent_qq|we_chat|sms)`)
 
 func (p *DefaultModeParam) Validator() error {
 	if len(p.ClientId) < 10 {
@@ -36,26 +36,26 @@ func (p *DefaultModeParam) Validator() error {
 	if len(p.ClientSecret) < 4 {
 		return errors.New("grant_type 格式错误！")
 	}
-	if ok, _ := regexp.MatchString(pattern, p.GrantType); !ok {
+	if ok := pattern.MatchString(p.GrantType); !ok {
 		return errors.New("授权类型，必须是[ authorization_code | password | client_credentials | tencent_qq | we_chat | sms ]之一！")
 	}
 	return nil
 }
 
-// 客户端模式
+// ClientModeParam 客户端模式
 type ClientModeParam struct {
 	DefaultModeParam
 	Scope string `json:"scope" form:"scope"`
 }
 
-// 密码模式
+// PasswordModeParam 密码模式
 type PasswordModeParam struct {
 	DefaultModeParam
 	Username string `json:"username" form:"username"`
 	Password string `json:"password" form:"password"`
 }
 
-// 发送短信验证码
+// SendSmsParam 发送短信验证码
 type SendSmsParam struct {
 
 	/**
@@ -69,7 +69,7 @@ type SendSmsParam struct {
 	ClientId string `json:"client_id" form:"client_id"`
 }
 
-// 短信验证码模式
+// SmsModeParam 短信验证码模式
 type SmsModeParam struct {
 	DefaultModeParam
 
@@ -84,7 +84,7 @@ type SmsModeParam struct {
 	Code string `json:"code" form:"code"`
 }
 
-// 授权码模式获取 code 参数
+// GetCodeModeParam 授权码模式获取 code 参数
 type GetCodeModeParam struct {
 
 	// 表示授权类型，必选项，此处的值固定为"code"
@@ -107,7 +107,7 @@ type GetCodeModeParam struct {
 	State string `json:"state" form:"state"`
 }
 
-// 授权码模式。通过 code 获取 access_token
+// CodeModeParam 授权码模式。通过 code 获取 access_token
 type CodeModeParam struct {
 	DefaultModeParam
 
@@ -117,7 +117,7 @@ type CodeModeParam struct {
 	Code string `json:"code" form:"code"`
 }
 
-// 授权码模式。用户登录
+//UserLoginParam 授权码模式。用户登录
 type UserLoginParam struct {
 
 	/**

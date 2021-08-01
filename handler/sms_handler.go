@@ -10,7 +10,7 @@ import (
 	"regexp"
 )
 
-const mobilePattern = "^[1][3,4,5,7,8,9][0-9]{9}$"
+var mobilePattern = regexp.MustCompile(`^[1][3,4,5,7,8,9][0-9]{9}$`)
 
 // SendSmsHandler 发送 短信验证码
 func SendSmsHandler(c *gin.Context) {
@@ -23,7 +23,7 @@ func SendSmsHandler(c *gin.Context) {
 		c.JSON(http.StatusOK, domain.Error3(exception.RequestParamValidate, "client_id 格式错误！"))
 		return
 	}
-	if ok, _ := regexp.MatchString(mobilePattern, param.Mobile); !ok {
+	if ok := mobilePattern.MatchString(param.Mobile); !ok {
 		c.JSON(http.StatusOK, domain.Error3(exception.RequestParamValidate, "手机号格式不正确！"))
 		return
 	}
@@ -49,7 +49,7 @@ func SmsHandler(c *gin.Context) {
 		c.JSON(http.StatusOK, domain.Error3(exception.RequestParamValidate, "短信验证码格式错误！"))
 		return
 	}
-	if ok, _ := regexp.MatchString(mobilePattern, param.Mobile); !ok {
+	if ok := mobilePattern.MatchString(param.Mobile); !ok {
 		c.JSON(http.StatusOK, domain.Error3(exception.RequestParamValidate, "手机号格式不正确！"))
 		return
 	}
